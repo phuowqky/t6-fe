@@ -1,0 +1,66 @@
+<div class="detail-page">
+  @if (product(); as p) {
+    <mat-card class="product-card">
+      <div class="product-card__header">
+        <span class="product-card__badge">#{{ p.id }}</span>
+        <span
+          class="product-card__status"
+          [class.product-card__status--active]="p.status === 1"
+        >
+          {{ p.status === 1 ? 'Đang bán' : 'Ngừng bán' }}
+        </span>
+      </div>
+
+      <div class="product-card__image">
+        @if (p.imageUrl) {
+          <img [src]="p.imageUrl" [alt]="p.name" />
+        } @else {
+          <div class="product-card__image-placeholder">
+            <mat-icon>image_not_supported</mat-icon>
+            <span>Không có ảnh</span>
+          </div>
+        }
+      </div>
+
+      <mat-card-content class="product-card__body">
+        <h1 class="product-card__name">{{ p.name }}</h1>
+        <p class="product-card__price">{{ p.price | number }} đ</p>
+
+        @if (p.description) {
+          <p class="product-card__description">{{ p.description }}</p>
+        }
+
+        <div class="product-card__meta">
+          @if (p.createdAt) {
+            <div class="meta-row">
+              <mat-icon>event</mat-icon>
+              <span>Tạo lúc: {{ p.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          }
+          @if (p.updatedAt) {
+            <div class="meta-row">
+              <mat-icon>update</mat-icon>
+              <span>Cập nhật: {{ p.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="product-card__actions">
+        <button mat-stroked-button (click)="goToUpdate()">
+          <mat-icon>edit</mat-icon>
+          Cập nhật
+        </button>
+        <button mat-flat-button color="warn" (click)="openDeleteDialog()">
+          <mat-icon>delete</mat-icon>
+          Xóa
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  } @else {
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Đang tải sản phẩm...</p>
+    </div>
+  }
+</div>
