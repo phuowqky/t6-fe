@@ -1,0 +1,99 @@
+<div class="edit-page">
+  <div class="edit-page__inner">
+
+    <button class="back-link" type="button" (click)="onCancel()">
+      <mat-icon>arrow_back</mat-icon>
+      Quay lại danh sách
+    </button>
+
+    <mat-card class="edit-card">
+
+      @if (isLoading()) {
+        <div class="loading-state">
+          <mat-spinner diameter="36"></mat-spinner>
+          <p>Đang tải sản phẩm...</p>
+        </div>
+      } @else {
+
+        <div class="edit-card__header">
+          <div class="edit-card__title">
+            <mat-icon>edit</mat-icon>
+            <h1>Chỉnh sửa sản phẩm</h1>
+          </div>
+          <p class="edit-card__subtitle">Cập nhật thông tin sản phẩm #{{ productId }}</p>
+        </div>
+
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="edit-form">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Tên sản phẩm</mat-label>
+            <input matInput formControlName="name" placeholder="VD: Laptop Dell" />
+            @if (productForm.controls.name.invalid && productForm.controls.name.touched) {
+              <mat-error>Tên sản phẩm là bắt buộc</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Giá</mat-label>
+            <input matInput type="number" formControlName="price" min="0" />
+            <span matTextSuffix>đ</span>
+            @if (productForm.controls.price.invalid && productForm.controls.price.touched) {
+              <mat-error>Giá phải lớn hơn hoặc bằng 0</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Mô tả</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              rows="4"
+              placeholder="Mô tả sản phẩm..."
+            ></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>URL hình ảnh</mat-label>
+            <input matInput formControlName="imageUrl" placeholder="https://..." />
+          </mat-form-field>
+
+          @if (productForm.value.imageUrl) {
+            <div class="image-preview">
+              <img [src]="productForm.value.imageUrl" alt="Xem trước ảnh" />
+            </div>
+          }
+
+          <div class="edit-form__actions">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="onCancel()"
+              [disabled]="isSaving()"
+            >
+              Hủy
+            </button>
+<button
+  mat-raised-button
+  color="primary"
+  type="submit"
+  [disabled]="productForm.invalid || isSaving()"
+>
+  @if (isSaving()) {
+    <ng-container>
+      <mat-spinner diameter="18" class="btn-spinner"></mat-spinner>
+      <span>Đang cập nhật...</span>
+    </ng-container>
+  } @else {
+    <ng-container>
+      <mat-icon>save</mat-icon>
+      <span>Cập nhật sản phẩm</span>
+    </ng-container>
+  }
+</button>
+          </div>
+
+        </form>
+      }
+    </mat-card>
+  </div>
+</div>

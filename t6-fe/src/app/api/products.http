@@ -1,0 +1,68 @@
+### =========================
+### PRODUCT API
+### =========================
+
+@baseUrl = http://localhost:8888/api/v0/products
+
+
+### 1. Lấy danh sách sản phẩm
+GET {{baseUrl}}?page=0&size=10
+Content-Type: application/json
+
+
+### 2. Lấy chi tiết sản phẩm
+GET {{baseUrl}}/1
+Content-Type: application/json
+
+
+### 3. Tìm kiếm sản phẩm
+GET {{baseUrl}}/search?keyword=Laptop
+Content-Type: application/json
+
+
+### 4. Sắp xếp giá tăng dần
+GET {{baseUrl}}/sort-price-asc?page=0&size=10
+Content-Type: application/json
+
+
+### 5. Tạo sản phẩm
+POST {{baseUrl}}/create
+Content-Type: application/json
+
+{
+  "name": "Laptop Test",
+  "price": 20000000,
+  "description": "Laptop dùng để test API",
+  "imageUrl": ""
+}
+
+
+### 6. Cập nhật sản phẩm
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+  "name": "Laptop Updated",
+  "price": 25000000,
+  "description": "Laptop đã được cập nhật",
+  "imageUrl": ""
+}
+
+
+### 7. Xóa mềm sản phẩm
+PUT {{baseUrl}}/1/status
+Content-Type: application/json
+
+{}
+
+
+### 8. Xóa vĩnh viễn sản phẩm
+DELETE {{baseUrl}}/1
+Content-Type: application/json
+
+
+### 9. Đồng bộ sản phẩm
+POST {{baseUrl}}/sync
+Content-Type: application/json
+
+{}

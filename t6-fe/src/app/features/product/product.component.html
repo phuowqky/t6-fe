@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <!-- <div class="product-page">
   <header class="product-page__header">
     <div class="header-title">
@@ -123,18 +125,28 @@
       <mat-icon>add</mat-icon>
       Tạo sản phẩm
     </button>
+
+    <button
+  mat-raised-button
+  color="primary"
+  type="button"
+  (click)="loadProducts(currentPage())"
+>
+  <mat-icon>refresh</mat-icon>
+  Tải lại sản phẩm
+</button>
   </header>
 
   <section class="toolbar">
     <div class="search-box">
       <mat-icon class="search-box__icon">search</mat-icon>
-      <input
-        #keyword
-        type="text"
-        placeholder="Nhập tên sản phẩm..."
-        (keyup.enter)="searchProducts(keyword.value)"
-      />
-      <button class="btn btn--primary" (click)="searchProducts(keyword.value)">
+<input
+  type="text"
+  placeholder="Tìm kiếm sản phẩm..."
+  [value]="keyword()"
+  (input)="onSearch($any($event.target).value)"
+/>
+      <button class="btn btn--primary" (click)="searchProducts(keyword())">
         Tìm kiếm
       </button>
     </div>
@@ -148,6 +160,14 @@
         <mat-icon>sync</mat-icon>
         Đồng bộ
       </button>
+
+          <button
+  mat-stroked-button
+  (click)="sortPriceAsc()"
+>
+  <mat-icon>sort</mat-icon>
+  Giá tăng dần
+</button>
     </div>
   </section>
 
@@ -209,8 +229,20 @@
             >
               <mat-icon>delete</mat-icon>
             </button>
+
+                <button
+      mat-icon-button
+      color="warn"
+      matTooltip="Xóa vĩnh viễn"
+      (click)="openHardDeleteDialog(product)"
+    >
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+
+
           </td>
         </ng-container>
+        
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

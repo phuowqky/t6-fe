@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { ProductResponse } from "../models/famme-product.model";
 import { environment } from "../../../enviroment/enviroment";
 import { FammeProduct } from "../models/famme-product-response.model";
@@ -34,21 +34,25 @@ export class ProductService {
 //     );
 //   }
 
+// getById(id: number) {
+//   return this.http.get<ProductDetailResponse>(
+//     `${this.apiUrl}/${id}`
+//   );
+// }
 getById(id: number) {
-  return this.http.get<ProductDetailResponse>(
-    `${this.apiUrl}/${id}`
-  );
+  return this.http
+    .get<ProductDetailResponse>(`${this.apiUrl}/${id}`)
+    .pipe(
+      map(response => response.data)
+    );
 }
 
   // Tìm kiếm
-  search(keyword: string): Observable<ProductResponse[]> {
-
-  const params = new HttpParams()
-    .set('keyword', keyword);
-
-  return this.http.get<ProductResponse[]>(
-    `${this.apiUrl}/search`,
-    { params }
+search(keyword: string) {
+  return this.http.get<any>(
+    `${this.apiUrl}/search?keyword=${encodeURIComponent(keyword)}`
+  ).pipe(
+    map(response => response.data)
   );
 }
 
@@ -86,4 +90,15 @@ createProduct(product: any) {
     product
   );
 }
+
+  hardDelete(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+sortPriceAsc(page: number, size: number) {
+  return this.http.get<any>(
+    `${this.apiUrl}/sort-price-asc?page=${page}&size=${size}`
+  );
+}
+
 }

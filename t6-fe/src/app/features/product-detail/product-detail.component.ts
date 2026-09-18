@@ -43,7 +43,7 @@
 
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -56,7 +56,7 @@ import { UpdateProductDialogComponent } from './update-product-dialog/update-pro
 
 @Component({
   selector: 'app-product-detail',
-  imports: [DecimalPipe, DatePipe, MatButtonModule, MatIconModule, MatCardModule],
+  imports: [DecimalPipe, DatePipe, MatButtonModule, MatIconModule, MatCardModule, RouterLink],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })

@@ -1,6 +1,7 @@
 import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../core/services/product.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-form',
@@ -12,6 +13,7 @@ export class ProductFormComponent {
 
   private fb = inject(FormBuilder);
   private productService = inject(ProductService);
+  private snackBar = inject(MatSnackBar);
 
   saved = output<void>();
   closed = output<void>();
@@ -40,15 +42,24 @@ export class ProductFormComponent {
       this.productForm.getRawValue()
     ).subscribe({
       next: () => {
+        this.snackBar.open(
+          'Thêm sản phẩm thành công',
+          'Đóng',
+          { duration: 3000 }
+        );
         this.submitting = false;
         this.productForm.reset({ name: '', description: '', price: 0, imageUrl: '' });
         this.saved.emit();
       },
-      error: (error) => {
-        this.submitting = false;
-        this.errorMessage = 'Thêm sản phẩm thất bại. Vui lòng thử lại.';
-        console.error('Lỗi thêm sản phẩm:', error);
-      }
+error: error => {
+  console.error('Lỗi tạo sản phẩm:', error);
+
+  this.snackBar.open(
+    'Tạo sản phẩm thất bại',
+    'Đóng',
+    { duration: 3000 }
+  );
+}
     });
   }
 

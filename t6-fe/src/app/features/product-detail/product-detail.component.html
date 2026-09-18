@@ -46,16 +46,19 @@
         </div>
       </mat-card-content>
 
-      <mat-card-actions class="product-card__actions">
-        <button mat-stroked-button (click)="goToUpdate()">
-          <mat-icon>edit</mat-icon>
-          Cập nhật
-        </button>
-        <button mat-flat-button color="warn" (click)="openDeleteDialog()">
-          <mat-icon>delete</mat-icon>
-          Xóa
-        </button>
-      </mat-card-actions>
+<mat-card-actions class="product-card__actions">
+  <button
+    type="button"
+    [routerLink]="['/products/edit', p.id]"
+  >
+    Sửa
+  </button>
+
+  <button mat-flat-button color="warn" (click)="openDeleteDialog()">
+    <mat-icon>delete</mat-icon>
+    Xóa
+  </button>
+</mat-card-actions>
     </mat-card>
   } @else {
     <div class="loading-state">
