@@ -1,45 +1,4 @@
-// import { Component, inject, OnInit, signal } from '@angular/core';
-// import { ProductService } from '../../core/services/product.service';
-// import { ActivatedRoute } from '@angular/router';
-// import { ProductResponse } from '../../core/models/famme-product.model';
-// import { DecimalPipe } from '@angular/common';
-// import { FammeProduct } from '../../core/models/famme-product-response.model';
-// import { ProductDetail } from '../../core/models/product-detail.model';
 
-
-// @Component({
-//   selector: 'app-product-detail',
-//   imports: [DecimalPipe],
-//   templateUrl: './product-detail.component.html',
-//   styleUrl: './product-detail.component.scss',
-// })
-// export class ProductDetailComponent implements OnInit {
-
-//   private productService = inject(ProductService);
-//   private route = inject(ActivatedRoute);
-
-//   product = signal<ProductDetail | null>(null);
-
-//   ngOnInit(): void {
-//     const id = Number(this.route.snapshot.paramMap.get('id'));
-
-//     this.loadProduct(id);
-//   }
-
-//   loadProduct(id: number): void {
-//     this.productService.getById(id).subscribe({
-//       next: (response) => {
-//         console.log('API response:', response);
-//         console.log('Product data:', response.data);
-
-//         this.product.set(response.data);
-//       },
-//       error: (error) => {
-//         console.error('Lỗi lấy chi tiết sản phẩm:', error);
-//       }
-//     });
-//   }
-// }
 
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
@@ -52,11 +11,12 @@ import { ProductResponse } from '../../core/models/famme-product.model';
 import { ProductService } from '../../core/services/product.service';
 import { ConfirmDeleteDialogComponent } from './component/confirm-delete-dialog.component';
 import { UpdateProductDialogComponent } from './update-product-dialog/update-product-dialog';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [DecimalPipe, DatePipe, MatButtonModule, MatIconModule, MatCardModule, RouterLink],
+  imports: [DecimalPipe, DatePipe, MatButtonModule, MatIconModule, MatCardModule, RouterLink, MatProgressSpinnerModule,],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
@@ -65,6 +25,7 @@ export class ProductDetailComponent implements OnInit {
   private router = inject(Router);
   private productService = inject(ProductService);
   private dialog = inject(MatDialog);
+  private location = inject(Location);
 
   product = signal<ProductResponse | null>(null);
 
@@ -130,5 +91,9 @@ goToUpdate(): void {
         console.error('Lỗi xóa sản phẩm:', error);
       }
     });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

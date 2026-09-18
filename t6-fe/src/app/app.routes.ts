@@ -6,6 +6,12 @@ import { ProductEditComponent } from './features/product-edit/product-edit.compo
 
 
 export const routes: Routes = [
+
+  {
+    path: '',
+    redirectTo: 'product',
+    pathMatch: 'full'
+  },
   {
     path: 'product',
     component: ProductComponent

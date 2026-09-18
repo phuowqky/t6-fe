@@ -1,68 +1,104 @@
+
+
 <div class="detail-page">
   @if (product(); as p) {
-    <mat-card class="product-card">
-      <div class="product-card__header">
-        <span class="product-card__badge">#{{ p.id }}</span>
-        <span
-          class="product-card__status"
-          [class.product-card__status--active]="p.status === 1"
-        >
-          {{ p.status === 1 ? 'Đang bán' : 'Ngừng bán' }}
-        </span>
+
+    <header class="topbar">
+      <div class="topbar__left">
+<button mat-button (click)="goBack()" class="back-link">
+  <mat-icon>arrow_back</mat-icon>
+  Quay lại
+</button>
+        <span class="topbar__divider">/</span>
+        <span class="topbar__title">Chi tiết sản phẩm #{{ p.id }}</span>
       </div>
 
-      <div class="product-card__image">
-        @if (p.imageUrl) {
-          <img [src]="p.imageUrl" [alt]="p.name" />
-        } @else {
-          <div class="product-card__image-placeholder">
-            <mat-icon>image_not_supported</mat-icon>
-            <span>Không có ảnh</span>
+    </header>
+
+    <mat-card class="detail-card">
+      <div class="detail-card__grid">
+
+        <div class="detail-card__media">
+          <div class="main-image">
+            <img
+      [src]="p.imageUrl || 'assets/images/meo.jpg'"
+      [alt]="p.name"
+/>
           </div>
-        }
-      </div>
 
-      <mat-card-content class="product-card__body">
-        <h1 class="product-card__name">{{ p.name }}</h1>
-        <p class="product-card__price">{{ p.price | number }} đ</p>
-
-        @if (p.description) {
-          <p class="product-card__description">{{ p.description }}</p>
-        }
-
-        <div class="product-card__meta">
-          @if (p.createdAt) {
-            <div class="meta-row">
-              <mat-icon>event</mat-icon>
-              <span>Tạo lúc: {{ p.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-          }
-          @if (p.updatedAt) {
-            <div class="meta-row">
-              <mat-icon>update</mat-icon>
-              <span>Cập nhật: {{ p.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-          }
+          <p class="media-note">Định dạng hình ảnh: JPG / PNG</p>
         </div>
-      </mat-card-content>
 
-<mat-card-actions class="product-card__actions">
-  <button
-    type="button"
-    [routerLink]="['/products/edit', p.id]"
-  >
-    Sửa
-  </button>
+        <div class="detail-card__info">
+          <div class="info-tags">
+            <span class="tag tag--id">Mã SP: #{{ p.id }}</span>
 
-  <button mat-flat-button color="warn" (click)="openDeleteDialog()">
-    <mat-icon>delete</mat-icon>
-    Xóa
-  </button>
-</mat-card-actions>
+            <span
+              class="tag tag--status"
+              [class.tag--status-active]="p.status === 1"
+            >
+              <mat-icon>{{ p.status === 1 ? 'check_circle' : 'cancel' }}</mat-icon>
+              {{ p.status === 1 ? 'Đang bán' : 'Ngừng bán' }}
+            </span>
+          </div>
+
+          <h1 class="product-title">{{ p.name }}</h1>
+
+          <div class="price-block">
+            <span class="price-block__value">{{ p.price | number }} đ</span>
+            <span class="price-block__label">GIÁ NIÊM YẾT</span>
+          </div>
+
+          <div class="section">
+            <h3 class="section__title">Mô tả sản phẩm</h3>
+@if (p.description) {
+  <div class="section__text" [innerHTML]="p.description"></div>
+} @else {
+  <p class="section__text section__text--empty">
+    Chưa có mô tả cho sản phẩm này.
+  </p>
+}
+          </div>
+
+          <div class="meta-box">
+            @if (p.createdAt) {
+              <div class="meta-box__item">
+                <mat-icon>calendar_today</mat-icon>
+                <div>
+                  <span class="meta-box__label">Tạo lúc</span>
+                  <span class="meta-box__value">{{ p.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </div>
+            }
+            @if (p.updatedAt) {
+              <div class="meta-box__item">
+                <mat-icon>autorenew</mat-icon>
+                <div>
+                  <span class="meta-box__label">Cập nhật</span>
+                  <span class="meta-box__value">{{ p.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="detail-card__actions">
+            <button mat-stroked-button (click)="goToUpdate()">
+              <mat-icon>edit</mat-icon>
+              Sửa
+            </button>
+            <button mat-flat-button color="warn" (click)="openDeleteDialog()">
+              <mat-icon>delete</mat-icon>
+              Xóa
+            </button>
+          </div>
+        </div>
+
+      </div>
     </mat-card>
+
   } @else {
     <div class="loading-state">
-      <div class="loading-spinner"></div>
+      <mat-spinner diameter="36"></mat-spinner>
       <p>Đang tải sản phẩm...</p>
     </div>
   }

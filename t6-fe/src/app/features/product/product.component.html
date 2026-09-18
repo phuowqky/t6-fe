@@ -1,116 +1,5 @@
 <app-header></app-header>
 
-<!-- <div class="product-page">
-  <header class="product-page__header">
-    <div class="header-title">
-      <h1>Danh sách sản phẩm</h1>
-      <p class="header-subtitle">
-        Hiển thị {{ products().length }} / {{ totalElements() }} sản phẩm
-        @if (totalPages() > 0) {
-          · Trang {{ currentPage() + 1 }}/{{ totalPages() }}
-        }
-      </p>
-    </div>
-
-    <div class="toolbar">
-      <div class="search-box">
-        <input
-          #keyword
-          type="text"
-          placeholder="Nhập tên sản phẩm..."
-          (keyup.enter)="searchProducts(keyword.value)"
-        />
-        <button class="btn btn--primary" (click)="searchProducts(keyword.value)">
-          Tìm kiếm
-        </button>
-      </div>
-
-      <div class="action-box">
-        <button class="btn btn--ghost" (click)="loadProducts(0)">Tất cả</button>
-        <button class="btn btn--accent" (click)="syncProducts()">Đồng bộ</button>
-<button mat-raised-button (click)="showCreateForm.set(true)">
-  Tạo sản phẩm
-</button>
-      </div>
-    </div>
-    
-  </header>
-
-  <main class="product-grid">
-    @for (product of products(); track product.id) {
-      <article class="product-card">
-        <div class="product-card__image">
-          @if (product.imageUrl) {
-            <img [src]="product.imageUrl" [alt]="product.name" />
-          } @else {
-            <div class="product-card__placeholder">Không có ảnh</div>
-          }
-        </div>
-
-        <div class="product-card__body">
-          <span class="product-card__id">#{{ product.id }}</span>
-          <h3 class="product-card__name">{{ product.name }}</h3>
-          <p class="product-card__price">{{ product.price | number }} đ</p>
-        </div>
-        
-            <a [routerLink]="['/products', product.id]">
-      Xem chi tiết
-    </a>
-
-        <div class="product-card__footer">
-          <button class="btn btn--danger btn--sm" (click)="deleteProduct(product.id)">
-            Xóa
-          </button>
-        </div>
-      </article>
-    } @empty {
-      <div class="empty-state">
-        <p>Không có sản phẩm nào.</p>
-      </div>
-    }
-  </main>
-
-  @if (totalPages() > 0) {
-    <footer class="pagination">
-      <button
-        class="pagination__btn pagination__btn--nav"
-        [disabled]="currentPage() === 0"
-        (click)="prevPage()"
-      >
-        &laquo; Trước
-      </button>
-
-      <div class="pagination__pages">
-        @for (page of pageNumbers; track page) {
-          <button
-            class="pagination__btn"
-            [class.pagination__btn--active]="page === currentPage()"
-            (click)="goToPage(page)"
-          >
-            {{ page + 1 }}
-          </button>
-        }
-      </div>
-
-      <button
-        class="pagination__btn pagination__btn--nav"
-        [disabled]="currentPage() === totalPages() - 1"
-        (click)="nextPage()"
-      >
-        Sau &raquo;
-      </button>
-    </footer>
-  }
-
-  @if (showCreateForm()) {
-  <app-product-form
-    (saved)="onProductCreated()"
-    (closed)="closeCreateForm()"
-  />
-}
-
-</div> -->
-
 <div class="product-page">
 
   <header class="page-header">
@@ -126,7 +15,7 @@
       Tạo sản phẩm
     </button>
 
-    <button
+    <!-- <button
   mat-raised-button
   color="primary"
   type="button"
@@ -134,7 +23,7 @@
 >
   <mat-icon>refresh</mat-icon>
   Tải lại sản phẩm
-</button>
+</button> -->
   </header>
 
   <section class="toolbar">
@@ -152,10 +41,10 @@
     </div>
 
     <div class="action-box">
-      <button class="btn btn--ghost" (click)="loadProducts(0)">
-        <mat-icon>list</mat-icon>
-        Tất cả
-      </button>
+<button class="btn btn--ghost" (click)="clearSort()">
+  <mat-icon>list</mat-icon>
+  Tất cả
+</button>
       <button class="btn btn--accent" (click)="syncProducts()">
         <mat-icon>sync</mat-icon>
         Đồng bộ
@@ -175,23 +64,27 @@
     <div class="table-scroll">
       <table mat-table [dataSource]="products()" class="product-table">
 
-        <ng-container matColumnDef="id">
+        <!-- <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>ID</th>
           <td mat-cell *matCellDef="let product">
             <span class="id-badge">#{{ product.id }}</span>
           </td>
-        </ng-container>
+        </ng-container> -->
+        <ng-container matColumnDef="stt">
+  <th mat-header-cell *matHeaderCellDef>STT</th>
+  <td mat-cell *matCellDef="let product; let i = index">
+    <span class="id-badge">{{ currentPage() * pageSize() + i + 1 }}</span>
+  </td>
+</ng-container>
 
         <ng-container matColumnDef="image">
           <th mat-header-cell *matHeaderCellDef>Ảnh</th>
           <td mat-cell *matCellDef="let product">
-            @if (product.imageUrl) {
-              <img class="thumb" [src]="product.imageUrl" [alt]="product.name" />
-            } @else {
-              <div class="thumb thumb--empty">
-                <mat-icon>image_not_supported</mat-icon>
-              </div>
-            }
+<img
+  class="thumb"
+  [src]="product.imageUrl || 'assets/images/meo.jpg'"
+  [alt]="product.name"
+/>
           </td>
         </ng-container>
 

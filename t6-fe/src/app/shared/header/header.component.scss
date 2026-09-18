@@ -1,26 +1,35 @@
 .app-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  border-bottom: 1px solid #e0e0e0;
-  background: white;
+  justify-content: center;
+  height: 96px;
+  padding: 0 28px;
+  background: #fff;
+  border-bottom: 1px solid #eceef1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.header-left,
-.header-actions {
+.header-center {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
 }
 
-.header-left {
-  font-size: 20px;
-  font-weight: 600;
+.brand-logo-img {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
 }
 
-.header-actions button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+@media (max-width: 560px) {
+  .app-header {
+    height: 72px;
+  }
+
+  .brand-logo-img {
+    height: 44px;
+  }
 }
